@@ -1,0 +1,25 @@
+﻿<Application x:Class="WpfCalculator.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfCalculator"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
+                <ResourceDictionary>
+                    <SolidColorBrush x:Key="Any_bckrnd"  >#323232</SolidColorBrush>
+                    <SolidColorBrush x:Key="Any_hover"  >#3b3b3b</SolidColorBrush>
+                    <SolidColorBrush x:Key="Num_bckrnd"  >#3b3b3b</SolidColorBrush>
+                    <SolidColorBrush x:Key="Num_hover"  >#323232</SolidColorBrush>
+                    <SolidColorBrush x:Key="Res_bckrnd"  >#5fceff</SolidColorBrush>
+                    <SolidColorBrush x:Key="Res_hover"  >#58bce8</SolidColorBrush>
+                    <SolidColorBrush x:Key="Screen_bckrnd"  >#5fceff</SolidColorBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
