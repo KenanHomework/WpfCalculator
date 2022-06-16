@@ -35,6 +35,8 @@ namespace WpfCalculator
 
         SCalculator calculator = new();
 
+        bool reset = false;
+
         private string view;
 
         public string View
@@ -73,14 +75,15 @@ namespace WpfCalculator
 
         bool IsNumPart(char ch) => (char.IsDigit(ch) || ch == '.');
 
-        bool IsNumPart(string ch) => ch.Length == 1 ? (char.IsDigit(ch.First()) || ch == ".") : false;
+        bool IsNumPart(string ch) => ch.Length == 1 ? (char.IsDigit(ch.First()) || ch == ",") : false;
 
         void AssignNumber(string num)
         {
-            if (Display == "0")
+            if (Display == "0" || reset)
                 Display = num;
             else
                 Display += num;
+            reset = false;
         }
 
         void BackSpace()
@@ -106,6 +109,7 @@ namespace WpfCalculator
         {
             Display = calculator.Result.ToString();
             View = calculator.EquationForView;
+            reset = true;
         }
 
         char CheckView()
@@ -145,15 +149,18 @@ namespace WpfCalculator
                 else if (btnC == "n!")
                 {
                     calculator.Add($"{CheckView()}!{Display}");
-
-
-                     
                     Fill();
                 }
                 else if (btnC == "|x|")
                 {
                     calculator.Add($"{CheckView()}|{calculator.Cal.Pip(Convert.ToDouble(Display))}");
                     Fill();
+                }
+                else if (btnC == "=")
+                {
+                    calculator.Add($"{Display}");
+                    Fill();
+                    View += "=";
                 }
                 else
                 {
