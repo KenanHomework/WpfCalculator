@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -37,7 +38,7 @@ namespace WpfCalculator
 
         bool reset = false;
 
-        private string view;
+        private string view = " ";
 
         public string View
         {
@@ -92,7 +93,6 @@ namespace WpfCalculator
             Display = Display.Remove(Display.Length - 1);
             if (Display.Length == 0)
                 Display = "0";
-
         }
 
         void CE() => Display = "0";
@@ -124,10 +124,19 @@ namespace WpfCalculator
             return ' ';
         }
 
+        bool equalsMode = false;
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
             {
+                if (equalsMode)
+                {
+                    CE();
+                    calculator.C();
+                    equalsMode = false;
+                }
+
                 string btnC = btn.Content.ToString();
                 if (IsNumPart(btnC))
                     AssignNumber(btnC);
@@ -160,7 +169,8 @@ namespace WpfCalculator
                 {
                     calculator.Add($"{Display}");
                     Fill();
-                    View += "=";
+                    reset = true;
+                    equalsMode = true;
                 }
                 else
                 {

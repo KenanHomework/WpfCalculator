@@ -38,8 +38,7 @@ namespace MOC
 
         public void Calculate()
         {
-            Result = Cal.CalculateEquation(equation);
-            equation = Result.ToString();
+            Result = Cal.CalculateEquation(ref equation);
         }
 
         public void Add(string block)
@@ -57,9 +56,9 @@ namespace MOC
 
         public double MR() => MList.Last();
 
-        public void MPlus(string equation) => MList[MList.Count - 1] += Cal.CalculateEquation(equation);
+        public void MPlus(string equation) => MList[MList.Count - 1] += Cal.CalculateEquation(ref equation);
 
-        public void MMinus(string equation) => MList[MList.Count - 1] -= Cal.CalculateEquation(equation);
+        public void MMinus(string equation) => MList[MList.Count - 1] -= Cal.CalculateEquation(ref equation);
 
         public void C()
         {

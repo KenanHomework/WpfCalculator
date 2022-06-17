@@ -46,16 +46,21 @@ namespace MOC
             return 1;
         }
 
-        public double CalculateEquation(string equation)
+        public double CalculateEquation(ref string equation)
         {
+            SolveDoubleOperation(ref equation);
             try
             {
-                return Convert.ToDouble(equation);
+                if (equation.Last().IsMathSymbol())
+                    return Convert.ToDouble(equation.GetRange(new(0, equation.Length - 1)));
+                else
+                    return Convert.ToDouble(equation);
             }
             catch (Exception) { }
 
             CalculateBrackets(ref equation);
             double res = 0;
+            bool stop = false;
 
         /* 1~ Calculate Math Funcs*/
         CalculateFN:
@@ -87,7 +92,7 @@ namespace MOC
 
         /* 2~ Calculate Math Symbols */
         CalculateSY:
-            if (equation.HasMember(General.MathSymbols))
+            if (equation.HasMember(General.MathSymbols) && !stop)
             {
                 double num1 = 0;
                 double num2 = 0;
@@ -106,11 +111,16 @@ namespace MOC
 
                         temp = equation.GetRangeToTarget(index, General.MathSymbols, Direction.Back);
                         indexOfNum1 = index - temp.Length;
-                        num1 = CalculateEquation(temp);
+                        num1 = CalculateEquation(ref temp);
 
                         temp = equation.GetRangeToTarget(index, General.MathSymbols, Direction.Forwad);
                         indexOfNum2 = index + temp.Length;
-                        num2 = CalculateEquation(temp);
+                        if (string.IsNullOrWhiteSpace(temp))
+                        {
+                            stop = true;
+                            break;
+                        }
+                        num2 = CalculateEquation(ref temp);
 
 
                         res = CalculateNums(num1, num2, operation.ToString());
@@ -182,8 +192,7 @@ namespace MOC
                 open = equation.LastIndexOf('(');
                 close = equation.GetRange(new(open, equation.Length)).IndexOf(')') + open;
                 string s = equation.GetRange(new(open + 1, close));
-                double d = CalculateEquation(s);
-                equation = equation.Change(new(open, close), d.ToString());
+                equation = equation.Change(new(open, close), CalculateEquation(ref s).ToString());
             }
 
             SolveDoubleOperation(ref equation);
