@@ -56,6 +56,8 @@ namespace WpfCalculator
             {
                 if (!string.IsNullOrWhiteSpace(value))
                     content = value;
+                else
+                    content = "0";
                 OnPropertyChanged();
             }
         }
@@ -89,10 +91,9 @@ namespace WpfCalculator
 
         void BackSpace()
         {
-
-            Display = Display.Remove(Display.Length - 1);
-            if (Display.Length == 0)
-                Display = "0";
+            int index = Display.Length - 1;
+            string s = Display.Remove(index);
+            Display = s;
         }
 
         void CE() => Display = "0";
@@ -155,6 +156,14 @@ namespace WpfCalculator
                     Display = MOC.General.Pi.ToString();
                 else if (btnC == "e")
                     Display = General.E.ToString();
+                else if (btnC == "2^x")
+                {
+                    Display = calculator.Cal.Power(2, Convert.ToDouble(Display)).ToString();
+                }
+                else if (btnC == "10^x")
+                {
+                    Display = calculator.Cal.Power(10, Convert.ToDouble(Display)).ToString();
+                }
                 else if (btnC == "n!")
                 {
                     calculator.Add($"{CheckView()}!{Display}");
