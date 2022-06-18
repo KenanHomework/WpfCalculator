@@ -125,6 +125,23 @@ namespace WpfCalculator
             return ' ';
         }
 
+        void Calculate(string block)
+        {
+            try
+            {
+                calculator.Add(block);
+                Fill();
+            }
+            catch (ArgumentException ex)
+            {
+                CE();
+                calculator.C();
+                Fill();
+                Display = ex.Message;
+                reset = true;
+            }
+        }
+
         bool equalsMode = false;
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -166,26 +183,18 @@ namespace WpfCalculator
                 }
                 else if (btnC == "n!")
                 {
-                    calculator.Add($"{CheckView()}!{Display}");
-                    Fill();
+                    Calculate($"{CheckView()}!{Display}");
                 }
                 else if (btnC == "|x|")
-                {
-                    calculator.Add($"{CheckView()}|{calculator.Cal.Pip(Convert.ToDouble(Display))}");
-                    Fill();
-                }
+                    Calculate($"{CheckView()}|{calculator.Cal.Pip(Convert.ToDouble(Display))}");
                 else if (btnC == "=")
                 {
-                    calculator.Add($"{Display}");
-                    Fill();
+                    Calculate(Display);
                     reset = true;
                     equalsMode = true;
                 }
                 else
-                {
-                    calculator.Add($"{Display}{btnC}");
-                    Fill();
-                }
+                    Calculate($"{Display}{btnC}");
 
             }
         }

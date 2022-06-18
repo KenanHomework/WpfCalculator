@@ -122,7 +122,8 @@ namespace MOC
                         }
                         num2 = CalculateEquation(ref temp);
 
-
+                        if (operation == '/' && (num1 == 0 || num2 == 0))
+                            throw new ArgumentException("Cannot divide by zero");
                         res = CalculateNums(num1, num2, operation.ToString());
                         equation = equation.Replace(equation.GetRange(indexOfNum1, indexOfNum2 + 1), res.ToString());
                     }
